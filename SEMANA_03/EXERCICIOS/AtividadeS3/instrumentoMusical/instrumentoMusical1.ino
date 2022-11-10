@@ -1,10 +1,10 @@
-https://wokwi.com/projects/347788772429005396
+//https://wokwi.com/projects/347788772429005396
 int listadeLeds[4] = {3,10,15,18};
 int buttonSave = 45;
 int save = LOW;
 int buttonClean = 47;
 int clean = LOW;
-int sensorLuz = 40;
+int sensorLuz = 7;
 int arrayLuzes[50] = {};
 int posicaoInicial = 0;
 int Buzzer = 6;
@@ -26,20 +26,21 @@ void setup() {
   pinMode(sensorLuz, INPUT);
 }
 void loop() {
-  Serial.println("LDR" + analogRead (sensorLuz));
+  int valor_ldr = analogRead(sensorLuz);
+  //Serial.printf("LDR %i", valor_ldr);
   save = digitalRead(buttonSave);
   if (save == LOW){
     sensorLuz = conversaoSensor(analogRead(4),64,4063);
     Serial.println(sensorLuz);
     int acender[4]= {0,0,0,0};
     for (int i = 0; i<4; i++){
-      acender[i] = (1&sensorLuz>>i);
+      //acender[i] = (1&sensorLuz>>i);
       if (acender[i] == 1){
         digitalWrite(listadeLeds[i],HIGH);
       }
     }
   tone(Buzzer,100+(150*sensorLuz),3000);
-  arrayLuzes[posicaoInicial] = sensorLuz;
+  arrayLuzes[posicaoInicial] = valor_ldr;
   posicaoInicial += 1;
   delay(2500);
     for (int i = 0; i<4; i++){
@@ -68,14 +69,3 @@ void loop() {
     posicaoInicial = 0;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
